@@ -4,7 +4,7 @@
   "description": "Service Experts delivery platform",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon bin/www",
+    "start": "node bin/www",
     "test": "mocha --timeout 5000"
   },
   "repository": {

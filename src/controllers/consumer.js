@@ -1,5 +1,6 @@
 const passport = require('passport');
 const Consumer = require('../models/consumer');
+const Task = require('../models/task');
 
 const signUp = async (req, res) => {
   const { email, password, name } = req.body;
@@ -13,6 +14,7 @@ const signUp = async (req, res) => {
       message: 'Internal Server Error',
       data: {}
     });
+    return;
   }
 
   res.status(201).json({
@@ -52,7 +54,70 @@ const login = async (req, res) => {
   })(req, res);
 };
 
+const postTask = async (req, res) => {
+  const {
+    name, description, location, category
+  } = req.body;
+  const consumerId = req.decoded.id;
+
+  let newTask;
+  try {
+    newTask = await Task.create({
+      name,
+      description,
+      'location.coordinates': location,
+      requestedBy: consumerId,
+      category
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: 'Internal Server Error',
+      data: {}
+    });
+    return;
+  }
+
+  res.status(201).json({
+    message: 'New Task Successfuly Created',
+    data: {
+      name: newTask.name,
+      email: newTask.description
+    }
+  });
+};
+
+const getTasks = async (req, res) => {
+  const consumerId = req.decoded.id;
+  let tasks;
+  try {
+    tasks = await Task.find({ requestedBy: consumerId }).lean();
+  } catch (error) {
+    res.status(500).json({
+      message: 'Internal Server Error',
+      data: {}
+    });
+    return;
+  }
+
+  if (tasks.length === 0) {
+    res.status(404).json({
+      message: 'No tasks have been created by you.'
+    });
+    return;
+  }
+
+  res.status(200).json({
+    message: 'List of tasks',
+    data: {
+      tasks
+    }
+  });
+};
+
 module.exports = {
   signUp,
-  login
+  login,
+  postTask,
+  getTasks
 };

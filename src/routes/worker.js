@@ -4,5 +4,6 @@ const worker = require('../controllers/worker');
 const router = express.Router();
 
 router.post('/', worker.signUp);
+router.post('/login', worker.login);
 
 module.exports = router;

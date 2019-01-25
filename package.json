@@ -29,7 +29,7 @@
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.6",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "passport-custom": "^1.0.5"
   },
   "devDependencies": {
     "eslint": "^5.12.1",

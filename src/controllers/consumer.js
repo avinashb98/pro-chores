@@ -1,3 +1,4 @@
+const passport = require('passport');
 const Consumer = require('../models/consumer');
 
 const signUp = async (req, res) => {
@@ -23,6 +24,35 @@ const signUp = async (req, res) => {
   });
 };
 
+const login = async (req, res) => {
+  passport.authenticate('consumer', { session: false }, (err, consumer, info) => {
+    if (err) {
+      res.status(403).json({
+        message: 'Unable to authenticate worker',
+        data: {}
+      });
+      return;
+    }
+
+    if (!consumer) {
+      res.status(404).json({
+        message: 'Authentication failed',
+        data: {}
+      });
+      return;
+    }
+
+    const user = consumer;
+    user.token = consumer.generateJWT();
+
+    res.status(200).json({
+      message: 'Login Successful',
+      data: { user: consumer.toAuthJSON() }
+    });
+  })(req, res);
+};
+
 module.exports = {
-  signUp
+  signUp,
+  login
 };

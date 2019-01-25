@@ -13,6 +13,9 @@ require('./config/db');
 const Worker = require('./src/routes/worker');
 const Consumer = require('./src/routes/consumer');
 
+// Passport configurations
+require('./config/passportConfig');
+
 // Initializing express app
 const app = express();
 

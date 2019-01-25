@@ -66,4 +66,24 @@ const login = async (req, res, next) => {
   next();
 };
 
-module.exports = { signUp, login };
+const ValidateCreate = Joi.object().keys({
+  name: Joi.string().min(3).required(),
+  category: Joi.string().min(3).required(),
+  description: Joi.string().min(3).optional(),
+  location: Joi.array().length(2).optional()
+});
+
+const create = async (req, res, next) => {
+  const { error, value } = ValidateCreate.validate(req.body);
+  if (error) {
+    res.status(400).json({
+      message: `Invalid input format. ${error.message}`
+    });
+    return;
+  }
+
+  req.body = value;
+  next();
+};
+
+module.exports = { signUp, login, create };

@@ -58,7 +58,7 @@ app.use(limiter);
 // Router Initialization
 app.get('/api/', (req, res) => {
   res.status(200).json({
-    msg: 'Welcome to Pro-Chores API'
+    message: 'Welcome to Pro-Chores API'
   });
 });
 

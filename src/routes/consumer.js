@@ -11,7 +11,7 @@ router.post('/login', validate.login, consumer.login);
 // Authentication Middleware
 router.use(verifyToken);
 
-router.post('/task', consumer.postTask);
+router.post('/task', validate.create, consumer.postTask);
 router.get('/tasks', consumer.getTasks);
 router.post('/rate-worker', consumer.rateWorker);
 

@@ -1,11 +1,12 @@
 const express = require('express');
 const verifyToken = require('../middlewares/verifyToken');
 const consumer = require('../controllers/consumer');
+const validate = require('../controllers/validators/consumerValidator');
 
 const router = express.Router();
 
-router.post('/', consumer.signUp);
-router.post('/login', consumer.login);
+router.post('/', validate.signUp, consumer.signUp);
+router.post('/login', validate.login, consumer.login);
 
 // Authentication Middleware
 router.use(verifyToken);

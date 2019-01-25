@@ -28,6 +28,10 @@ const TaskSchema = new Schema({
       type: [Number]
     }
   },
+  category: {
+    type: String,
+    required: true
+  },
   status: {
     type: String,
     default: 'unclaimed'

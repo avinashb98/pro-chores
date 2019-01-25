@@ -10,6 +10,8 @@ const Session = require('express-session');
 require('./config/db');
 
 // Routes
+const Worker = require('./src/routes/worker');
+const Consumer = require('./src/routes/consumer');
 
 // Initializing express app
 const app = express();
@@ -56,5 +58,8 @@ app.get('/api/', (req, res) => {
     msg: 'Welcome to Pro-Chores API'
   });
 });
+
+app.use('/api/worker/', Worker);
+app.use('/api/consumer/', Consumer);
 
 module.exports = app;

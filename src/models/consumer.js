@@ -58,4 +58,4 @@ ConsumerSchema.methods.toAuthJSON = function () {
   };
 };
 
-module.exports = mongoose.model('Worker', ConsumerSchema);
+module.exports = mongoose.model('Consumer', ConsumerSchema);

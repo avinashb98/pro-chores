@@ -1,6 +1,7 @@
 const passport = require('passport');
 const Consumer = require('../models/consumer');
 const Task = require('../models/task');
+const WorkerRating = require('../models/workerRating');
 
 const signUp = async (req, res) => {
   const { email, password, name } = req.body;
@@ -27,7 +28,7 @@ const signUp = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  passport.authenticate('consumer', { session: false }, (err, consumer, info) => {
+  passport.authenticate('consumer', { session: false }, (err, consumer) => {
     if (err) {
       res.status(403).json({
         message: 'Unable to authenticate worker',
@@ -115,9 +116,63 @@ const getTasks = async (req, res) => {
   });
 };
 
+const rateWorker = async (req, res) => {
+  const { taskId, rating } = req.body;
+  const consumerId = req.decoded.id;
+
+  let task;
+  try {
+    task = await Task.findOne({ _id: taskId, requestedBy: consumerId });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Internal Server Error',
+      data: {}
+    });
+    return;
+  }
+
+  if (!task) {
+    res.status(404).json({
+      message: 'Task not found.'
+    });
+    return;
+  }
+
+  if (task.status.toString() !== 'completed') {
+    res.status(403).json({
+      message: 'Task not completed.'
+    });
+    return;
+  }
+
+  const workerId = task.claimedBy;
+  let newRating;
+  try {
+    newRating = new WorkerRating({ user: workerId });
+    newRating.ratings.push({
+      rating,
+      ratedBy: consumerId,
+      task: taskId
+    });
+    await newRating.save();
+  } catch (error) {
+    res.status(500).json({
+      message: 'Internal Server Error',
+      data: {}
+    });
+    return;
+  }
+
+  res.status(201).json({
+    message: 'Worker successfully rated',
+    data: {}
+  });
+};
+
 module.exports = {
   signUp,
   login,
   postTask,
-  getTasks
+  getTasks,
+  rateWorker
 };

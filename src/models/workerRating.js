@@ -39,4 +39,4 @@ WorkerRatingSchema.methods.getRating = function () {
   return (totalRating / ratingsCount).toFixed(1);
 };
 
-module.exports = mongoose.model('ConsumerRating', WorkerRatingSchema);
+module.exports = mongoose.model('WorkerRating', WorkerRatingSchema);

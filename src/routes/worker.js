@@ -17,5 +17,6 @@ router.put('/task/accept', worker.acceptTask);
 router.put('/task/mark-complete', worker.completeTask);
 router.get('/tasks/completed', worker.getCompletedTasks);
 router.get('/tasks/incomplete', worker.getInCompleteTasks);
+router.post('/rate-consumer', worker.rateConsumer);
 
 module.exports = router;

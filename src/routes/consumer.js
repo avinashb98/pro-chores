@@ -13,5 +13,6 @@ router.use(verifyToken);
 
 router.post('/task', consumer.postTask);
 router.get('/tasks', consumer.getTasks);
+router.post('/rate-worker', consumer.rateWorker);
 
 module.exports = router;

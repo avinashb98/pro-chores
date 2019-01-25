@@ -4,6 +4,10 @@
 
 The **Pro-Chores** exposes a [JSON:API Spec](http://jsonapi.org/) Compliant `REST API` that can be used by external services to build a service expert discovery platform.
 
+**LIVE API:**
+- The API is publicly hosted at
+https://peaceful-dawn-44578.herokuapp.com/api
+
 **API Documentation:**
 -  A postman collection of the API requests is available at https://documenter.getpostman.com/view/2815732/RzthSX2y
 
